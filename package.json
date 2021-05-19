@@ -1,0 +1,61 @@
+{
+  "name": "symbol-definition",
+  "displayName": "Symbol Definition",
+  "description": "Go to the definition by workspace symbols",
+  "version": "0.0.1",
+  "publisher": "aki77",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aki77/vscode-symbol-definition.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aki77/vscode-symbol-definition/issues"
+  },
+  "engines": {
+    "vscode": "^1.56.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Symbol Definition",
+      "properties": {
+        "symbolDefinition.enabledLanguages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.56.0",
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "eslint": "^7.19.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "glob": "^7.1.6",
+    "mocha": "^8.2.1",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.5.0"
+  }
+}
