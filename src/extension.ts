@@ -10,14 +10,19 @@ import {
 
 const FREQUENT_THRESHOLD = 5;
 
+const escapeRegExp = (string: string): string => {
+  return string.replace(/[.*+?^=!:${}()|[\]\/\\]/g, '\\$&');
+};
+
 const symbolDefinitionProvider: DefinitionProvider = {
   provideDefinition: async (
     document: TextDocument,
     position: Position
   ): Promise<LocationLink[] | undefined> => {
+    const lineText = document.lineAt(position.line).text;
     const range = document.getWordRangeAtPosition(position);
     const query = document.getText(range);
-    if (query.length === 0) {
+    if (query.length < 2) {
       return;
     }
 
@@ -27,16 +32,20 @@ const symbolDefinitionProvider: DefinitionProvider = {
     )) as SymbolInformation[];
 
     const filteredSymbols = symbols.filter(
-      ({ kind, name }) => kind === SymbolKind.Method && name.includes(query)
+      ({ kind, name }) => kind === SymbolKind.Method && name.includes(query) && lineText.includes(name)
     );
     if (filteredSymbols.length > FREQUENT_THRESHOLD) {
       return;
     }
 
-    return filteredSymbols.map(({ location: { uri, range } }) => ({
-      targetRange: range,
-      targetUri: uri,
-    }));
+    return filteredSymbols.map(({ name, location: { uri, range } }) => {
+      const originSelectionRange = document.getWordRangeAtPosition(position, new RegExp(escapeRegExp(name)));
+      return {
+        originSelectionRange,
+        targetRange: range,
+        targetUri: uri,
+      };
+    });
   },
 };
 
