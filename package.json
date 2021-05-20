@@ -2,7 +2,7 @@
   "name": "symbol-definition",
   "displayName": "Symbol Definition",
   "description": "Go to the definition by workspace symbols",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "publisher": "aki77",
   "license": "MIT",
   "repository": {
