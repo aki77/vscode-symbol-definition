@@ -27,7 +27,7 @@ const symbolDefinitionProvider: DefinitionProvider = {
     )) as SymbolInformation[];
 
     const filteredSymbols = symbols.filter(
-      ({ kind }) => kind === SymbolKind.Method
+      ({ kind, name }) => kind === SymbolKind.Method && name.includes(query)
     );
     if (filteredSymbols.length > FREQUENT_THRESHOLD) {
       return;
